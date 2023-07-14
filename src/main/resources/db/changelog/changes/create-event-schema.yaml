@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01
+      author: rigoberto
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: event_pkey
+                  name: id
+                  type: int
+              - column:
+                  name: date
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priority
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(500)
+            tableName: event
+
+      rollback:
+        - dropTable:
+            tableName: event

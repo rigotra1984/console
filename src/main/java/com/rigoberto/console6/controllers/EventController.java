@@ -9,6 +9,7 @@ import com.rigoberto.console6.exceptions.NotFoundException;
 import com.rigoberto.console6.mappers.EventMapper;
 import com.rigoberto.console6.services.EventService;
 import com.rigoberto.console6.utils.Streams;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,21 +23,24 @@ public class EventController {
     private final EventService service;
     private final EventMapper mapper;
 
-    public EventController(EventService service) {
+    public EventController(EventService service, EventMapper mapper) {
         this.service = service;
-        this.mapper = new EventMapper();
+        this.mapper = mapper;
     }
 
+    @Operation(summary = "Get all events")
     @GetMapping
     public Collection<EventDto> getAll() {
         return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
     }
 
+    @Operation(summary = "Get a events by its page")
     @GetMapping("/page/{page}")
     public PageDto<EventDto> getAllByPage(@PathVariable Integer page) {
         return mapper.convertToDto(service.findAll(page));
     }
 
+    @Operation(summary = "Get a event by its id")
     @GetMapping("/{id}")
     public EventDto getById(@PathVariable Integer id) {
         Optional<Event> inbox = service.findById(id);
@@ -48,6 +52,7 @@ public class EventController {
         return mapper.convertToDto(inbox.get());
     }
 
+    @Operation(summary = "Create new event")
     @PostMapping
     public EventDto create(@Valid @RequestBody CreateEventDto dto) {
         Event result = service.save(mapper.convertToEntity(dto));
@@ -55,6 +60,7 @@ public class EventController {
         return mapper.convertToDto(result);
     }
 
+    @Operation(summary = "Update a event by its id")
     @PutMapping("/{id}")
     public EventDto update(@PathVariable Integer id, @Valid @RequestBody CreateEventDto dto) {
         Optional<Event> entity = service.findById(id);
@@ -71,6 +77,7 @@ public class EventController {
         return mapper.convertToDto(result);
     }
 
+    @Operation(summary = "Delete a event by its id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         Optional<Event> inbox = service.findById(id);

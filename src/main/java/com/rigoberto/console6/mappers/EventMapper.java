@@ -8,15 +8,20 @@ import com.rigoberto.console6.entities.Priority;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Component
 public class EventMapper {
     private final ModelMapper modelMapper;
+    private final Integer pageSize;
 
-    public EventMapper() {
+    public EventMapper(@Value("${console6p1.page-size}") Integer pageSize) {
+        this.pageSize = pageSize;
         modelMapper = new ModelMapper();
 
         //ajustar mapeos
@@ -51,6 +56,7 @@ public class EventMapper {
         pageDto.setTotalElements(page.getTotalElements());
         pageDto.setTotalPages(page.getTotalPages());
         pageDto.setItems(page.stream().map(this::convertToDto).collect(Collectors.toList()));
+        pageDto.setPageSize(pageSize);
 
         return pageDto;
     }

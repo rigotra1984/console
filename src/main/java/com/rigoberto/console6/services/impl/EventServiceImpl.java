@@ -1,9 +1,9 @@
 package com.rigoberto.console6.services.impl;
 
-import com.rigoberto.console6.config.ApiConstants;
 import com.rigoberto.console6.entities.Event;
 import com.rigoberto.console6.repositories.EventRepository;
 import com.rigoberto.console6.services.EventService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +15,10 @@ import java.util.Optional;
 @Service
 public class EventServiceImpl implements EventService {
     protected final EventRepository repository;
-    public EventServiceImpl(EventRepository repository) {
+    private Integer pageSize;
+    public EventServiceImpl(EventRepository repository, @Value("${console6p1.page-size}") Integer pageSize) {
         this.repository = repository;
+        this.pageSize = pageSize;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<Event> findAll(Integer page) {
-        Pageable paging = PageRequest.of(page - 1, ApiConstants.PAGE_SIZE, Sort.by("id").descending());
+        Pageable paging = PageRequest.of(page - 1, pageSize, Sort.by("id").descending());
         return repository.findAll(paging);
     }
 
