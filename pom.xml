@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rigoberto</groupId>
-    <artifactId>console6</artifactId>
+    <artifactId>console</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>console6</name>
     <description>console6</description>
