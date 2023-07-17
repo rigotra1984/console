@@ -17,7 +17,7 @@ public class TransportServiceImpl implements TransportService {
     protected final TransportRepository repository;
     private Integer pageSize;
 
-    public TransportServiceImpl(TransportRepository repository, @Value("${console6ii.page-size}") Integer pageSize) {
+    public TransportServiceImpl(TransportRepository repository, @Value("${console6p1.page-size}") Integer pageSize) {
         this.repository = repository;
         this.pageSize = pageSize;
     }

@@ -24,7 +24,7 @@ public class TransportMapper {
 
 
 
-    public TransportMapper(@Value("${console6ii.page-size}") Integer pageSize) {
+    public TransportMapper(@Value("${console6p1.page-size}") Integer pageSize) {
         this.pageSize = pageSize;
         modelMapper = new ModelMapper();
 
