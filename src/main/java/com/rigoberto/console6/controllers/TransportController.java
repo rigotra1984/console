@@ -10,6 +10,7 @@ import com.rigoberto.console6.exceptions.NotFoundException;
 import com.rigoberto.console6.mappers.TransportMapper;
 import com.rigoberto.console6.services.TransportService;
 import com.rigoberto.console6.utils.Streams;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +28,17 @@ public class TransportController {
         this.service = service;
         this.mapper = mapper;
     }
-
+    @Operation(summary = "Get all transports")
     @GetMapping
     public Collection<TransportDto> getAll() {
         return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
     }
-
+    @Operation(summary = "Get a transports by its page")
     @GetMapping("/page/{page}")
     public PageDto<TransportDto> getAllByPage(@PathVariable Integer page) {
         return mapper.convertToDto(service.findAll(page));
     }
-
+    @Operation(summary = "Get a transport by its id")
     @GetMapping("/{id}")
     public TransportDto getById(@PathVariable Integer id) {
         Optional<Transport> inbox = service.findById(id);
@@ -48,14 +49,14 @@ public class TransportController {
 
         return mapper.convertToDto(inbox.get());
     }
-
+    @Operation(summary = "Create new transport")
     @PostMapping
     public TransportDto create(@Valid @RequestBody CreateTransportDto dto) {
         Transport result = service.save(mapper.convertToEntity(dto));
 
         return mapper.convertToDto(result);
     }
-
+    @Operation(summary = "Update a transport by its id")
     @PutMapping("/{id}")
     public TransportDto update(@PathVariable Integer id, @Valid @RequestBody CreateTransportDto dto) {
         Optional<Transport> entity = service.findById(id);
@@ -72,7 +73,7 @@ public class TransportController {
 
         return mapper.convertToDto(result);
     }
-
+    @Operation(summary = "Delete a transport by its id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         Optional<Transport> inbox = service.findById(id);

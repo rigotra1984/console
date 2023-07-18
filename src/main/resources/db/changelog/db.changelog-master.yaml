@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/create-event-schema.yaml
   - include:
       file: db/changelog/changes/create-transport-schema.yaml
+  - include:
+      file: db/changelog/changes/create-passenger-schema.yaml

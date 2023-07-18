@@ -2,8 +2,10 @@ package com.rigoberto.console6.mappers;
 
 import com.rigoberto.console6.dtos.CreateTransportDto;
 import com.rigoberto.console6.dtos.PageDto;
+import com.rigoberto.console6.dtos.PassengerByTransportDto;
 import com.rigoberto.console6.dtos.TransportDto;
 import com.rigoberto.console6.entities.Destination;
+import com.rigoberto.console6.entities.Passenger;
 import com.rigoberto.console6.entities.Transport;
 import com.rigoberto.console6.entities.TypeVehicle;
 import org.modelmapper.Converter;
@@ -13,7 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,6 +39,10 @@ public class TransportMapper {
         Converter<Destination, String> destinationToString = c -> c.getSource().toString();
         propertyMapper1.addMappings(
                 mapper -> mapper.using(destinationToString).map(Transport::getDestination, TransportDto::setDestination)
+        );
+        Converter<Set<Passenger>, List<PassengerByTransportDto>> passengersToDto = c -> c.getSource() != null? c.getSource().stream().map(x -> new PassengerByTransportDto(x.getId(), x.getName())).toList(): new ArrayList<>();
+        propertyMapper1.addMappings(
+                mapper -> mapper.using(passengersToDto).map(Transport::getPassengers, TransportDto::setPassengers)
         );
 
         Converter<TypeVehicle, String> typeVehicleToString = c -> c.getSource().toString();
