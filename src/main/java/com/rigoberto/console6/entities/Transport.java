@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,6 +33,6 @@ public class Transport {
     @Column(name = "brand", nullable = false)
     protected String brand;
 
-    @OneToMany(mappedBy = "transport", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Passenger> passengers = new ArrayList<>();
+    @OneToMany(mappedBy = "transport", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Passenger> passengers;
 }

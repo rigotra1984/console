@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "passenger")
 public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +17,6 @@ public class Passenger {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "transport_id")
+    @JoinColumn(name = "transport_id", nullable=false)
     private Transport transport;
-
-    // Constructor, getters, and setters
 }

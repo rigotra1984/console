@@ -19,9 +19,19 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: brand
-                  type: VARCHAR(500)
-            tableName: transport
+                  constraints:
+                    nullable: false
+                  name: transport_id
+                  type: int
+            tableName: passenger
+        - addForeignKeyConstraint:
+            baseColumnNames: transport_id
+            baseTableName: passenger
+            constraintName: fk_passenger_transport_id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: transport
 
       rollback:
         - dropTable:

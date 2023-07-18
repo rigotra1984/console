@@ -8,14 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public class PassengerServicesimpl implements PassengerService {
+@Service
+public class PassengerServiceimpl implements PassengerService {
     protected final PassengerRepository repository;
     private Integer pageSize;
 
-    public PassengerServicesimpl(PassengerRepository repository, @Value("${console6p1.page-size}") Integer pageSize) {
+    public PassengerServiceimpl(PassengerRepository repository, @Value("${console6p1.page-size}") Integer pageSize) {
         this.repository = repository;
         this.pageSize = pageSize;
     }
