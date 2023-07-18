@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03
+      author: yaser
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: passenger_pkey
+                  name: id
+                  type: int
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: brand
+                  type: VARCHAR(500)
+            tableName: transport
+
+      rollback:
+        - dropTable:
+            tableName: passenger
