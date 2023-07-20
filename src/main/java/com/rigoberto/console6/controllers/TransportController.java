@@ -4,10 +4,12 @@ import com.rigoberto.console6.dtos.CreateTransportDto;
 import com.rigoberto.console6.dtos.PageDto;
 import com.rigoberto.console6.dtos.TransportDto;
 import com.rigoberto.console6.entities.Destination;
+import com.rigoberto.console6.entities.Driver;
 import com.rigoberto.console6.entities.Transport;
 import com.rigoberto.console6.entities.TypeVehicle;
 import com.rigoberto.console6.exceptions.NotFoundException;
 import com.rigoberto.console6.mappers.TransportMapper;
+import com.rigoberto.console6.services.DriverService;
 import com.rigoberto.console6.services.TransportService;
 import com.rigoberto.console6.utils.Streams;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,16 +18,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/transport")
 public class TransportController {
     private final TransportService service;
+    private final DriverService driverService;
     private final TransportMapper mapper;
 
-    public TransportController(TransportService service, TransportMapper mapper) {
+    public TransportController(TransportService service, DriverService driverService, TransportMapper mapper) {
         this.service = service;
+        this.driverService = driverService;
         this.mapper = mapper;
     }
     @Operation(summary = "Get all transports")
@@ -52,7 +57,12 @@ public class TransportController {
     @Operation(summary = "Create new transport")
     @PostMapping
     public TransportDto create(@Valid @RequestBody CreateTransportDto dto) {
-        Transport result = service.save(mapper.convertToEntity(dto));
+        Transport entity = mapper.convertToEntity(dto);
+
+        Collection<Driver> drivers = driverService.findAllByIdIn(dto.getDrivers());
+        entity.setDrivers(Set.copyOf(drivers));
+
+        Transport result = service.save(entity);
 
         return mapper.convertToDto(result);
     }
@@ -65,10 +75,13 @@ public class TransportController {
             throw new NotFoundException("Element not found");
         }
 
+        Collection<Driver> drivers = driverService.findAllByIdIn(dto.getDrivers());
+
         Transport transport = entity.get();
         transport.setDestination(Destination.fromString(dto.getDestination()));
         transport.setTypeVehicle(TypeVehicle.fromString(dto.getTypeVehicle()));
         transport.setBrand(dto.getBrand());
+        transport.setDrivers(Set.copyOf(drivers));
         Transport result = service.save(transport);
 
         return mapper.convertToDto(result);

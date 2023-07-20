@@ -1,13 +1,7 @@
 package com.rigoberto.console6.mappers;
 
-import com.rigoberto.console6.dtos.CreateTransportDto;
-import com.rigoberto.console6.dtos.PageDto;
-import com.rigoberto.console6.dtos.PassengerByTransportDto;
-import com.rigoberto.console6.dtos.TransportDto;
-import com.rigoberto.console6.entities.Destination;
-import com.rigoberto.console6.entities.Passenger;
-import com.rigoberto.console6.entities.Transport;
-import com.rigoberto.console6.entities.TypeVehicle;
+import com.rigoberto.console6.dtos.*;
+import com.rigoberto.console6.entities.*;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -40,16 +34,19 @@ public class TransportMapper {
         propertyMapper1.addMappings(
                 mapper -> mapper.using(destinationToString).map(Transport::getDestination, TransportDto::setDestination)
         );
-        Converter<Set<Passenger>, List<PassengerByTransportDto>> passengersToDto = c -> c.getSource() != null? c.getSource().stream().map(x -> new PassengerByTransportDto(x.getId(), x.getName())).toList(): new ArrayList<>();
+        Converter<Set<Passenger>, List<BasePassengerDto>> passengersToDto = c -> c.getSource() != null? c.getSource().stream().map(x -> new BasePassengerDto(x.getId(), x.getName())).toList(): new ArrayList<>();
         propertyMapper1.addMappings(
                 mapper -> mapper.using(passengersToDto).map(Transport::getPassengers, TransportDto::setPassengers)
+        );
+        Converter<Set<Driver>, List<BaseDriverDto>> driversToDto = c -> c.getSource() != null? c.getSource().stream().map(x -> new BaseDriverDto(x.getId(), x.getName(), x.getPassport())).toList(): new ArrayList<>();
+        propertyMapper1.addMappings(
+                mapper -> mapper.using(driversToDto).map(Transport::getDrivers, TransportDto::setDrivers)
         );
 
         Converter<TypeVehicle, String> typeVehicleToString = c -> c.getSource().toString();
         propertyMapper1.addMappings(
                 mapper -> mapper.using(typeVehicleToString).map(Transport::getTypeVehicle, TransportDto::setTypeVehicle)
         );
-
 
         TypeMap<CreateTransportDto, Transport> propertyMapper2 = modelMapper.createTypeMap(CreateTransportDto.class, Transport.class);
         propertyMapper2.addMappings(mapper -> mapper.skip(Transport::setId));

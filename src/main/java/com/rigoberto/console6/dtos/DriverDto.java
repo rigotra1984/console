@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class PassengerDto extends BasePassengerDto {
-    private Integer transportId;
-    private AddressDto address;
+public class DriverDto extends BaseDriverDto {
+    private List<BaseTransportDto> transports;
 }

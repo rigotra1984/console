@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PassengerByTransportDto {
+public class BasePassengerDto {
     protected Integer id;
     protected String name;
 }

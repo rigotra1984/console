@@ -1,18 +1,9 @@
 package com.rigoberto.console6.services;
 
 import com.rigoberto.console6.entities.Transport;
-import org.springframework.data.domain.Page;
 
-import java.util.Optional;
+import java.util.Collection;
 
-public interface TransportService {
-    Iterable<Transport> findAll();
-
-    Page<Transport> findAll(Integer page);
-
-    Optional<Transport> findById(Integer id);
-
-    Transport save(Transport entity);
-
-    void deleteById(Integer id);
+public interface TransportService extends GeneryService<Transport, Integer> {
+    Collection<Transport> findAllByIdIn(Collection<Integer> transportIds);
 }

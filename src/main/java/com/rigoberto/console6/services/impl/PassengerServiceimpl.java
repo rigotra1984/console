@@ -1,8 +1,10 @@
 package com.rigoberto.console6.services.impl;
 
+import com.rigoberto.console6.entities.Address;
 import com.rigoberto.console6.entities.Passenger;
 import com.rigoberto.console6.repositories.PassengerRepository;
 import com.rigoberto.console6.services.PassengerService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,9 +40,21 @@ public class PassengerServiceimpl implements PassengerService {
         return repository.findById(id);
     }
 
+    @Transactional
     @Override
     public Passenger save(Passenger entity) {
-        return repository.save(entity);
+        Passenger entityNew = entity;
+
+        if(entity.getId() == null) {
+            Address address = entity.getAddress();
+            entity.setAddress(null);
+
+            entityNew = repository.save(entity);
+            address.setPassenger(entityNew);
+            entityNew.setAddress(address);
+        }
+
+        return repository.save(entityNew);
     }
 
     @Override

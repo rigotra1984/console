@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 04
+      author: rigoberto
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: passenger_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: street
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+            tableName: address
+        - addForeignKeyConstraint:
+            baseColumnNames: passenger_id
+            baseTableName: address
+            constraintName: fk_passenger_address_id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: passenger
+
+      rollback:
+        - dropTable:
+            tableName: address

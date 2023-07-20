@@ -15,4 +15,6 @@ public class CreatePassengerDto {
 
 	@Positive(message = "TransportId is invalid")
 	private Integer transportId;
+
+	private AddressDto address;
 }

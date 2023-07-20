@@ -35,4 +35,12 @@ public class Transport {
 
     @OneToMany(mappedBy = "transport", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Passenger> passengers;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "transport_driver",
+            joinColumns = { @JoinColumn(name = "transport_id", referencedColumnName = "id", table = "transport") },
+            inverseJoinColumns = { @JoinColumn(name = "driver_id", referencedColumnName = "id", table = "driver")
+            })
+    private Set<Driver> drivers;
 }

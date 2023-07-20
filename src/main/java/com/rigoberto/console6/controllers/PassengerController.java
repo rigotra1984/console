@@ -1,9 +1,7 @@
 package com.rigoberto.console6.controllers;
 
 import com.rigoberto.console6.dtos.*;
-import com.rigoberto.console6.entities.Event;
 import com.rigoberto.console6.entities.Passenger;
-import com.rigoberto.console6.entities.Priority;
 import com.rigoberto.console6.entities.Transport;
 import com.rigoberto.console6.exceptions.NotFoundException;
 import com.rigoberto.console6.mappers.PassengerMapper;
@@ -90,6 +88,8 @@ public class PassengerController {
         Passenger event = entity.get();
         event.setName(dto.getName());
         event.setTransport(transport.get());
+        event.getAddress().setStreet(dto.getAddress().getStreet());
+        event.getAddress().setCity(dto.getAddress().getCity());
         Passenger result = service.save(event);
 
         return mapper.convertToDto(result);

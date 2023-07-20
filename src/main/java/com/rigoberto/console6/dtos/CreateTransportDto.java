@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -22,4 +24,6 @@ public class CreateTransportDto {
 	@NotEmpty(message = "Brand is required")
 	@Size(min = 2, max = 15, message = "Brand is invalid")
 	private String brand;
+
+	private Set<Integer> drivers;
 }

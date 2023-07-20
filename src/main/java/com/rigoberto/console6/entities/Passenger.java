@@ -19,4 +19,8 @@ public class Passenger {
     @ManyToOne
     @JoinColumn(name = "transport_id", nullable=false)
     private Transport transport;
+
+    @OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Address address;
 }

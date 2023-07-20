@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05
+      author: rigoberto
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: driver_pkey
+                  name: id
+                  type: int
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: passport
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+            tableName: driver
+        - createTable:
+            columns:
+              - column:
+                  name: transport_id
+                  type: int
+                  constraints:
+                    nullable: false
+#                    primaryKey: true
+#                    primaryKeyName: transport_driver_pkey
+              - column:
+                  name: driver_id
+                  type: int
+                  constraints:
+                    nullable: false
+#                    primaryKey: true
+#                    primaryKeyName: transport_driver_pkey
+            tableName: transport_driver
+        - addForeignKeyConstraint:
+            baseColumnNames: transport_id
+            baseTableName: transport_driver
+            constraintName: fk_transport_transport_driver_id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: transport
+        - addForeignKeyConstraint:
+            baseColumnNames: driver_id
+            baseTableName: transport_driver
+            constraintName: fk_driver_transport_driver_id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: driver
+        - addPrimaryKey:
+            tableName: transport_driver
+            constraintName: transport_driver_pkey
+            columnNames: transport_id, driver_id
+
+
+      rollback:
+        - dropTable:
+            tableName: driver
+        - dropTable:
+            tableName: transport_driver
