@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres
+    image: 'postgres:13.1-alpine'
+    environment:
+      - 'POSTGRES_DB=console'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    ports:
+      - "7654:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: always
+  console:
+    build: ./
+    container_name: console
+    image: rigoberto/console
+    ports:
+      - "50070:8090"
+#    volumes:
+#      - ./m2:/var/maven/.m2
+    depends_on:
+      postgres:
+        condition: service_healthy
