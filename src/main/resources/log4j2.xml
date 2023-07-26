@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN_FILE">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %t ${hostName} %C: %msg%n%throwable
+        </Property>
+        <Property name="LOG_PATTERN_CONSOLE">
+            %style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable
+        </Property>
+<!--        <Property name="LOG_PATH">$${env:LOGS_PATH}</Property>-->
+        <Property name="LOG_PATH">logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN_CONSOLE}" />
+        </Console>
+
+        <RollingFile name="FileAppenderAll" fileName="${LOG_PATH}/console.log" filePattern="${LOG_PATH}/console-%d{dd-MMMM-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="FileAppenderController" fileName="${LOG_PATH}/console-controllers.log" filePattern="${LOG_PATH}/console-controllers-%d{dd-MMMM-yyyy}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN_FILE}" />
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.rigoberto.console.controllers" level="info" additivity="false">
+            <AppenderRef ref="FileAppenderController" />
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="FileAppenderAll" />
+            <AppenderRef ref="ConsoleAppender" />
+        </Root>
+    </Loggers>
+
+</Configuration>
