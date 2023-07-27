@@ -10,6 +10,8 @@ import com.rigoberto.console.services.TransportService;
 import com.rigoberto.console.utils.Streams;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/passenger")
 public class PassengerController {
+    private Logger logger = LogManager.getLogger(PassengerController.class);
     private final PassengerService service;
     private final TransportService transportService;
     private final PassengerMapper mapper;
@@ -32,7 +35,12 @@ public class PassengerController {
     @Operation(summary = "Get all passengers")
     @GetMapping
     public Collection<PassengerDto> getAll() {
-        return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        try {
+            return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            logger.error("Ocurrio un error al intentar obtener todos los Passenger", e);
+            throw e;
+        }
     }
 
     @Operation(summary = "Get a passengers by its page")
@@ -46,7 +54,7 @@ public class PassengerController {
     public PassengerDto getById(@PathVariable Integer id) {
         Optional<Passenger> inbox = service.findById(id);
 
-        if(inbox.isEmpty()) {
+        if (inbox.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
@@ -58,7 +66,7 @@ public class PassengerController {
     public PassengerDto create(@Valid @RequestBody CreatePassengerDto dto) {
         Optional<Transport> transport = transportService.findById(dto.getTransportId());
 
-        if(transport.isEmpty()) {
+        if (transport.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
@@ -75,13 +83,13 @@ public class PassengerController {
     public PassengerDto update(@PathVariable Integer id, @Valid @RequestBody CreatePassengerDto dto) {
         Optional<Passenger> entity = service.findById(id);
 
-        if(entity.isEmpty()) {
+        if (entity.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
         Optional<Transport> transport = transportService.findById(dto.getTransportId());
 
-        if(transport.isEmpty()) {
+        if (transport.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
@@ -100,7 +108,7 @@ public class PassengerController {
     public void delete(@PathVariable Integer id) {
         Optional<Passenger> inbox = service.findById(id);
 
-        if(inbox.isEmpty()) {
+        if (inbox.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 

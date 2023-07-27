@@ -10,6 +10,8 @@ import com.rigoberto.console.services.TransportService;
 import com.rigoberto.console.utils.Streams;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/driver")
 public class DriverController {
+    private Logger logger = LogManager.getLogger(DriverController.class);
     private final DriverService service;
     private final TransportService transportService;
     private final DriverMapper mapper;
@@ -33,7 +36,12 @@ public class DriverController {
     @Operation(summary = "Get all drivers")
     @GetMapping
     public Collection<DriverDto> getAll() {
-        return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        try {
+            return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            logger.error("Ocurrio un error al intentar obtener todos los Passenger", e);
+            throw e;
+        }
     }
 
     @Operation(summary = "Get a drivers by its page")
@@ -47,7 +55,7 @@ public class DriverController {
     public DriverDto getById(@PathVariable Integer id) {
         Optional<Driver> inbox = service.findById(id);
 
-        if(inbox.isEmpty()) {
+        if (inbox.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
@@ -72,7 +80,7 @@ public class DriverController {
     public DriverDto update(@PathVariable Integer id, @Valid @RequestBody CreateDriverDto dto) {
         Optional<Driver> entity = service.findById(id);
 
-        if(entity.isEmpty()) {
+        if (entity.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 
@@ -92,7 +100,7 @@ public class DriverController {
     public void delete(@PathVariable Integer id) {
         Optional<Driver> inbox = service.findById(id);
 
-        if(inbox.isEmpty()) {
+        if (inbox.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
 

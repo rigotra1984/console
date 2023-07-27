@@ -14,6 +14,8 @@ import com.rigoberto.console.services.TransportService;
 import com.rigoberto.console.utils.Streams;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/transport")
 public class TransportController {
+    private Logger logger = LogManager.getLogger(TransportController.class);
     private final TransportService service;
     private final DriverService driverService;
     private final TransportMapper mapper;
@@ -33,16 +36,25 @@ public class TransportController {
         this.driverService = driverService;
         this.mapper = mapper;
     }
+
     @Operation(summary = "Get all transports")
     @GetMapping
     public Collection<TransportDto> getAll() {
-        return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        try {
+            logger.info("Deberia funcionar OK");
+            return Streams.streamOf(service.findAll()).map(mapper::convertToDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            logger.error("Ocurrio un error al intentar obtener todos los Transportes", e);
+            throw e;
+        }
     }
+
     @Operation(summary = "Get a transports by its page")
     @GetMapping("/page/{page}")
     public PageDto<TransportDto> getAllByPage(@PathVariable Integer page) {
         return mapper.convertToDto(service.findAll(page));
     }
+
     @Operation(summary = "Get a transport by its id")
     @GetMapping("/{id}")
     public TransportDto getById(@PathVariable Integer id) {
@@ -54,6 +66,7 @@ public class TransportController {
 
         return mapper.convertToDto(inbox.get());
     }
+
     @Operation(summary = "Create new transport")
     @PostMapping
     public TransportDto create(@Valid @RequestBody CreateTransportDto dto) {
@@ -66,6 +79,7 @@ public class TransportController {
 
         return mapper.convertToDto(result);
     }
+
     @Operation(summary = "Update a transport by its id")
     @PutMapping("/{id}")
     public TransportDto update(@PathVariable Integer id, @Valid @RequestBody CreateTransportDto dto) {
@@ -86,6 +100,7 @@ public class TransportController {
 
         return mapper.convertToDto(result);
     }
+
     @Operation(summary = "Delete a transport by its id")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
