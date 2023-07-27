@@ -12,7 +12,7 @@ public class TestConsoleApplication {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
-        return new PostgreSQLContainer<>("postgres:latest");
+        return new PostgreSQLContainer<>("postgresql:13.1-alpine");
     }
 
     public static void main(String[] args) {

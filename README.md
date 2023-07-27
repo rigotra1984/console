@@ -12,3 +12,14 @@ docker-compose -f compose-prod.yaml up  --build
 cd /console
 docker-compose -f compose-prod.yaml down
 ````
+
+### Lanzar un test en particular:
+````
+mvn test -Dtest="CreateEventDtoTest"
+mvn test -Dtest="EventControllerTest"
+````
+
+### Lanzar los test:
+````
+mvn test
+````

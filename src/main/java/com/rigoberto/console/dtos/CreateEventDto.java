@@ -12,10 +12,10 @@ import lombok.ToString;
 @ToString
 public class CreateEventDto {
 	@NotEmpty(message = "Priority is required")
-	@Pattern(regexp = "/MINIMUN|MEDIUM|MINIMUN/", message = "Priority is invalid")
+	@Pattern(regexp = "MINIMUN|MEDIUM|MAXIMUN", message = "Priority is invalid")
 	private String priority;
 
 	@NotEmpty(message = "Description is required")
-	@Size(min = 2, max = 10, message = "Priority is invalid")
+	@Size(min = 2, max = 10, message = "Description is invalid")
 	private String description;
 }
