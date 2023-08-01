@@ -2,7 +2,6 @@ package com.rigoberto.console.repositories;
 
 import com.rigoberto.console.entities.Event;
 import com.rigoberto.console.entities.Priority;
-import com.rigoberto.console.repositories.EventRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ public class EventRepositoryTest {
     private EventRepository eventRepository;
 
     @Test
-    void injectedComponentsAreNotNull(){
+    void injectedComponentsAreNotNull() {
         Assertions.assertNotNull(eventRepository, "El repository no puede ser null");
     }
 
@@ -91,7 +90,7 @@ public class EventRepositoryTest {
 
     @Test
     @DisplayName("Unit EventRepository deleteById")
-    void deleteById(){
+    void deleteById() {
         eventRepository.deleteById(1);
         Optional<Event> event = eventRepository.findById(1);
         Assertions.assertTrue(event.isEmpty(), "El elemnto con Id 1 del repository fue eliminado");
