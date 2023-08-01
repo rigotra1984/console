@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQLDB)
 @DataJpaTest
 @SqlGroup({
-        @Sql(value = "classpath:db/resetpassenger.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
-        @Sql(value = "classpath:db/datapassenger.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+        @Sql(value = "classpath:db/reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(value = "classpath:db/data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
 public class PassengerRepositoryTest {
     @Autowired

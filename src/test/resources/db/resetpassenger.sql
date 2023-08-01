@@ -1,4 +1,0 @@
-DELETE FROM passenger;
-TRUNCATE TABLE passenger RESTART IDENTITY;
-
-

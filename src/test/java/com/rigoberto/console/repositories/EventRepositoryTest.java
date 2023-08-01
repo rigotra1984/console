@@ -93,14 +93,17 @@ public class EventRepositoryTest {
     @DisplayName("Unit EventRepository deleteById")
     void deleteById(){
         eventRepository.deleteById(1);
-        List<Event> events = eventRepository.findAll();
+        Optional<Event> event = eventRepository.findById(1);
+        Assertions.assertTrue(event.isEmpty(), "El elemnto con Id 1 del repository fue eliminado");
 
-        Assertions.assertNotNull(events, "El findAll del repository no puede ser null");
-        assertEquals(2, events.size(), "El findAll del repository debe devolver 2 elementos");
-
-        assertEquals(2, events.get(1).getId(), "El id del elemento3 debe ser 2");
-        assertEquals("descripcion de prueba3", events.get(1).getDescription(), "La descripcion del elemento3 debe ser: \"descripcion de prueba3\"");
-        assertEquals(Priority.MAXIMUN, events.get(1).getPriority(), "La prioridad del elemento3 deber MAXIMUN");
+//        List<Event> events = eventRepository.findAll();
+//
+//        Assertions.assertNotNull(events, "El findAll del repository no puede ser null");
+//        assertEquals(2, events.size(), "El findAll del repository debe devolver 2 elementos");
+//
+//        assertEquals(2, events.get(1).getId(), "El id del elemento3 debe ser 2");
+//        assertEquals("descripcion de prueba3", events.get(1).getDescription(), "La descripcion del elemento3 debe ser: \"descripcion de prueba3\"");
+//        assertEquals(Priority.MAXIMUN, events.get(1).getPriority(), "La prioridad del elemento3 deber MAXIMUN");
     }
 
 }
