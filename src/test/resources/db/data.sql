@@ -22,6 +22,7 @@ INSERT INTO transport(registration_date, type_vehicle,destination, brand) VALUES
 -- INSERT INTO passenger(name, trasportId) VALUES
 --                                             ('Kuko',1),
 --                                             ('Pedro',1);
+
 -- --                                               ('Juan'),
 -- --                                               ('Pito'),
 -- --                                               ('Maria'),
