@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EventMapperTest {
     @ParameterizedTest(name = "{index} priority:{0}-description:{1}-expected:{2}")
     @CsvSource(value = {"MINIMUN,Description1,true", "MEDIUM,Description2,true", "MAXIMUN,Description3,true"}, delimiter = ',')
-    @DisplayName("Unit CreateEventDto testValidDto")
+    @DisplayName("Unit Event testValidDtoToEntity")
     void testValidDtoToEntity(String priority, String description, Boolean expected) {
         CreateEventDto dto = new CreateEventDto();
         dto.setPriority(priority);
@@ -28,9 +28,9 @@ public class EventMapperTest {
 
     }
 
-    @ParameterizedTest(name = "{index} priority:{0}-description:{1}-expected:{2}")
+    @ParameterizedTest(name = "{index} priority:{1}-description:{2}-expected:{3}")
     @CsvSource(value = {"1,MINIMUN,Description1,true", "2,MEDIUM,Description2,true", "3,MAXIMUN,Description3,true"}, delimiter = ',')
-    @DisplayName("Unit CreateEventDto testValidDto")
+    @DisplayName("Unit Event testValidEntityToDto")
     void testValidEntityToDto(Integer id, String priority, String description, Boolean expected) {
         Event entity = new Event();
         entity.setId(id);
