@@ -30,4 +30,13 @@ VALUES ('Kuko', 0),
        ('Felo', 4),
        ('Lurdes', 4);
 
-insert into (passenger_id, city,)
+insert into address(passenger_id, city, street)
+VALUES (0, 'Cienfuegos', 'Prado'),
+       (1, 'Cienfuegos', 'San Carlos'),
+       (2, 'Cienfuegos', 'Santa Cruz'),
+       (3, 'Cienfuegos', 'Prado'),
+       (4, 'Bayamo', 'Manuel de Socorro'),
+       (5, 'La Habana', 'Malecon'),
+       (6, 'Matanzas', 'Los Puentes'),
+       (7, 'Villa Clara', 'Vidal'),
+       (8, 'Matanzas', 'La Playa');

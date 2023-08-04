@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatePassengerDtoTest {
     @ParameterizedTest(name = "{index} name:{0}-trasportId:{1}-expected:{2}")
-    @CsvSource(value = {",,false",",1,false","yaser,2,false","yaser,1,true",}, delimiter = ',')
+    @CsvSource(value = {",,false",",1,false","yaser,2,true","yaser,1,true",}, delimiter = ',')
     @DisplayName("Unit CreatePassengerDto testValidDto")
     void testValidDto(String name, Integer transportId, Boolean expected) {
         CreatePassengerDto dto = new CreatePassengerDto();
