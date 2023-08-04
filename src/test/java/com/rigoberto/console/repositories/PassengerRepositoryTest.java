@@ -1,9 +1,6 @@
 package com.rigoberto.console.repositories;
 
-import com.rigoberto.console.entities.Destination;
-import com.rigoberto.console.entities.Passenger;
-import com.rigoberto.console.entities.Transport;
-import com.rigoberto.console.entities.TypeVehicle;
+import com.rigoberto.console.entities.*;
 import org.glassfish.jaxb.core.v2.TODO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -72,24 +69,21 @@ public class PassengerRepositoryTest {
         assertEquals("Pedro", passenger.get().getName(), "El nombre de elemento2 debe ser: \"Pedro\"");
         assertEquals(1, passenger.get().getTransport().getId(), "El transport_id de ese elemento2 debe ser 1");
         assertEquals("Cienfuegos",passenger.get().getAddress().getCity(), "La ciudad de ese elemnto es Cienfuegos");
-        assertEquals("Prado",passenger.get().getAddress().getStreet(), "En la Street Prado");
+        assertEquals("San Carlos",passenger.get().getAddress().getStreet(), "En la Street San Carlos");
 
     }
 
     @Test
-    @DisplayName("Unit TransportRepository Update")
+    @DisplayName("Unit PassengerRepository Update")
     void update(){
         Optional<Passenger> passenger = passengerRepository.findById(2);
         Assertions.assertTrue(passenger.isPresent(),"El findById 2 del repository no puede ser null");
 
-        Passenger t = passenger.get();
-        t.setName("Berta");
+        Passenger p = passenger.get();
+        p.setName("Berta");
+        //        p.setTransport();
 
-        //        t.setTransport();
-
-
-
-        passengerRepository.save(t);
+        passengerRepository.save(p);
 
         passenger = passengerRepository.findById(2);
         Assertions.assertTrue(passenger.isPresent(),"El findById 2 del repository no puede ser null");
@@ -99,6 +93,14 @@ public class PassengerRepositoryTest {
         assertEquals(1, passenger.get().getTransport().getId(), "El transport_id de ese elemento2 debe ser 1");
         assertEquals("Cienfuegos",passenger.get().getAddress().getCity(), "La ciudad de ese elemnto es Cienfuegos");
         assertEquals("Santa Cruz",passenger.get().getAddress().getStreet(), "En la Street Santa Cruz");
+    }
+
+    @Test
+    @DisplayName("Unit PassengerRepository Update")
+    void deleteById(){
+        passengerRepository.deleteById(1);
+        Optional<Passenger> passenger = passengerRepository.findById(1);
+        Assertions.assertTrue(passenger.isEmpty(),"El elemnto con Id 1 del repository fue eliminado");
     }
 }
 

@@ -40,3 +40,13 @@ VALUES (0, 'Cienfuegos', 'Prado'),
        (6, 'Matanzas', 'Los Puentes'),
        (7, 'Villa Clara', 'Vidal'),
        (8, 'Matanzas', 'La Playa');
+
+insert into driver(name, passport)
+VALUES ('Pepe', '84021014200'),
+       ('Juan', '79120215202'),
+       ('Siro', '65062215200');
+
+insert into transport_driver(transport_id, driver_id)
+VALUES (2,0),
+       (1,1),
+       (0,2);
