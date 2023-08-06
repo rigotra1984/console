@@ -13,12 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class PassengerServiceTest {
@@ -38,26 +35,31 @@ public class PassengerServiceTest {
         closeable.close();
     }
 
-//    private static List<Passenger> getTestPassengerData() {
-//        Transport transport1 = new Transport(1,new Date(System.currentTimeMillis()), TypeVehicle.LAND, Destination.PASSAGE, "Yutong", null, null)
-//        return List.of(
-//                new Passenger(1,"Richard",1, "Cienfuegos, Prado"),
-//                new Passenger(2, "Juan", "1", "La Habana, Malecon"),
+    private static List<Passenger> getTestPassengerData() {
+
+        Transport transport1 = new Transport(1, new Date(System.currentTimeMillis()), TypeVehicle.LAND, Destination.PASSAGE, "Yutong", new HashSet<>(), new HashSet<>());
+        Address address1 = new Address(1, "Prado","Cienfuegos",null);
+        Passenger passenger1 = new Passenger(1, "Richard", transport1, address1);
+        address1.setPassenger(passenger1);
+
+//        new Passenger(2, "Juan", "1", "La Habana, Malecon"),
 //                new Passenger(3, "Pito", "2", "Cienfuegos, Junco Sur"),
 //                new Passenger(4, "Maria", "3", "Matanzas, El Puente")
-//
-//        );
-//    }
+        transport1.getPassengers().add(passenger1);
+        return List.of(
+                passenger1
+        );
+    }
 
-//    @Test
-//    @DisplayName("Unit /api/passenger findAll")
-//    void getTestFindAll() {
-//        Mockito.when(repository.findAll()).thenReturn(getTestPassengerData());
-//
-//        List<Passenger> result = Streams.streamOf(service.findAll()).toList();
-//
-//        assertEquals(4, result.size(), "El findAll del repository debe devolver 3 elementos");
-//    }
+    @Test
+    @DisplayName("Unit /api/passenger findAll")
+    void getTestFindAll() {
+        Mockito.when(repository.findAll()).thenReturn(getTestPassengerData());
+
+        List<Passenger> result = Streams.streamOf(service.findAll()).toList();
+
+        assertEquals(1, result.size(), "El findAll del repository debe devolver 3 elementos");
+    }
 //
 //    @Test
 //    @DisplayName("Unit /api/passenger/1 findById")

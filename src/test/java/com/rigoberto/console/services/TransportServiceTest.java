@@ -86,6 +86,8 @@ public class TransportServiceTest {
     void deleteById() {
         int idToDelete = 1;
         Mockito.doNothing().when(repository).deleteById(idToDelete);
+//        Mockito.when(repository.deleteById(idToDelete)).;
+
         service.deleteById(idToDelete);
         verify(repository, times(1)).deleteById(idToDelete);
     }

@@ -80,7 +80,10 @@ public class PassengerRepositoryTest {
         Assertions.assertTrue(passenger.isPresent(),"El findById 2 del repository no puede ser null");
 
         Passenger p = passenger.get();
+
         p.setName("Berta");
+        p.getAddress().setStreet("Prado");
+        p.getTransport().setId(2);
         //        p.setTransport();
 
         passengerRepository.save(p);
@@ -90,9 +93,9 @@ public class PassengerRepositoryTest {
 
         assertEquals(2, passenger.get().getId(), "El id del elemento3 debe ser 2");
         assertEquals("Berta", passenger.get().getName(), "El nombre de elemento3 debe ser: \"Berta\"");
-        assertEquals(1, passenger.get().getTransport().getId(), "El transport_id de ese elemento2 debe ser 1");
+        assertEquals(2, passenger.get().getTransport().getId(), "El transport_id de ese elemento2 debe ser 1");
         assertEquals("Cienfuegos",passenger.get().getAddress().getCity(), "La ciudad de ese elemnto es Cienfuegos");
-        assertEquals("Santa Cruz",passenger.get().getAddress().getStreet(), "En la Street Santa Cruz");
+        assertEquals("Prado",passenger.get().getAddress().getStreet(), "En la Street Prado");
     }
 
     @Test
