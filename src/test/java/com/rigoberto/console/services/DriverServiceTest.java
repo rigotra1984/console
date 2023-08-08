@@ -1,8 +1,6 @@
 package com.rigoberto.console.services;
 
-import com.rigoberto.console.entities.Driver;
-import com.rigoberto.console.entities.Event;
-import com.rigoberto.console.entities.Priority;
+import com.rigoberto.console.entities.*;
 import com.rigoberto.console.repositories.DriverRepository;
 import com.rigoberto.console.services.impl.DriverServiceImpl;
 import com.rigoberto.console.utils.Streams;
@@ -15,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +40,22 @@ public class DriverServiceTest {
     }
 
     private static List<Driver> getTestDriverData() {
+        Transport transport1 = new Transport(1, new Date(System.currentTimeMillis()), TypeVehicle.LAND, Destination.WALK, "Mercedez", new HashSet<>(), new HashSet<>());
+        Transport transport2 = new Transport(2, new Date(System.currentTimeMillis()), TypeVehicle.LAND, Destination.PASSAGE, "Yutong", new HashSet<>(), new HashSet<>());
+        Driver driver1 = new Driver(1, "Pedruco", "84021014200", new HashSet<>());
+        Driver driver2 = new Driver(2, "Yunior", "90020218204", new HashSet<>());
+        Driver driver3 = new Driver(3, "Lucio", "80060818422", new HashSet<>());
+
+        driver1.getTransports().add(transport1);
+        driver1.getTransports().add(transport2);
+        driver2.getTransports().add(transport1);
+
+        transport1.getDrivers().add(driver1);
+        transport1.getDrivers().add(driver2);
+        transport2.getDrivers().add(driver1);
+
         return List.of(
-                new Driver(1, "Pedruco", "84021014200", null ),
-                new Driver(2, "Yunior", "90020218204",null),
-                new Driver(3, "Lucio", "80060818422",null)
+                driver1, driver2, driver3
         );
     }
 
@@ -69,5 +81,6 @@ public class DriverServiceTest {
         assertEquals(1, result.get().getId(), "El id del elemento debe ser 1");
         assertEquals("Pedruco", result.get().getName(), "La descripcion del elemento debe ser: \"Pedruco\"");
         assertEquals("84021014200", result.get().getPassport(), "La pasaporte del elemento deber ser 84021014200");
+//        assertEquals(,result.get().getTransports().stream().toList());
     }
 }
