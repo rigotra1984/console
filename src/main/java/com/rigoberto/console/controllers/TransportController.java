@@ -52,7 +52,13 @@ public class TransportController {
     @Operation(summary = "Get a transports by its page")
     @GetMapping("/page/{page}")
     public PageDto<TransportDto> getAllByPage(@PathVariable Integer page) {
-        return mapper.convertToDto(service.findAll(page));
+        try{
+            return mapper.convertToDto(service.findAll(page));
+        } catch (Exception e){
+            logger.error("Ocurrio un error al intentar obtener los trasnportes por paginas", e);
+            throw e;
+        }
+
     }
 
     @Operation(summary = "Get a transport by its id")
