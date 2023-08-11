@@ -84,7 +84,6 @@ public class PassengerRepositoryTest {
         p.setName("Berta");
         p.getAddress().setStreet("Prado");
         p.getTransport().setId(2);
-        //        p.setTransport();
 
         passengerRepository.save(p);
 
@@ -107,24 +106,3 @@ public class PassengerRepositoryTest {
     }
 }
 
-//('Kuko', 0),
-//('Pedro', 1),
-//('Juan', 1),
-//('Pito', 2),
-//('Maria', 2),
-//5
-//('Sara', 3),
-
-//('Rita', 3),
-//('Felo', 4),
-//('Lurdes', 4);
-
-//(0, 'Cienfuegos', 'Prado'),
-//(1, 'Cienfuegos', 'San Carlos'),
-//(2, 'Cienfuegos', 'Santa Cruz'),
-//(3, 'Cienfuegos', 'Prado'),
-//(4, 'Bayamo', 'Manuel de Socorro'),
-//(5, 'La Habana', 'Malecon'),
-//(6, 'Matanzas', 'Los Puentes'),
-//(7, 'Villa Clara', 'Vidal'),
-//(8, 'Matanzas', 'La Playa');

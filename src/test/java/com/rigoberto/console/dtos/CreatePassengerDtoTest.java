@@ -14,13 +14,18 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatePassengerDtoTest {
-    @ParameterizedTest(name = "{index} name:{0}-trasportId:{1}-expected:{2}")
-    @CsvSource(value = {",,false",",1,false","yaser,2,true","yaser,1,true",}, delimiter = ',')
+    @ParameterizedTest(name = "{index} name:{0}-trasportId:{1}-Street:{2}-City{3}-expected:{4}")
+    @CsvSource(value = {",,,,false",",1,Preado,Cienfuegos,false","yaser,2,,,true","yaser,1,Prado,Cienfuegos,true",}, delimiter = ',')
     @DisplayName("Unit CreatePassengerDto testValidDto")
-    void testValidDto(String name, Integer transportId, Boolean expected) {
+    void testValidDto(String name, Integer transportId, String street, String city, Boolean expected) {
         CreatePassengerDto dto = new CreatePassengerDto();
         dto.setName(name);
         dto.setTransportId(transportId);
+
+        AddressDto addressDto = new AddressDto();
+        addressDto.setStreet(street);
+        addressDto.setCity(city);
+        dto.setAddress(addressDto);
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         final Validator validator = factory.getValidator();
