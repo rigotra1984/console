@@ -141,7 +141,7 @@ public class TransportControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/transport/{transportId}", 2)
+                        .put("/api/transport/{transportId}", 1)
                         //.header("Authorization", getBearer("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -155,8 +155,3 @@ public class TransportControllerTest {
     }
 }
 
-//(now(), 'LAND', 'WALK', 'MERCEDES')
-//(now(), 'LAND', 'PASSAGE', 'YUTONG')
-//(now(), 'LAND', 'PASSAGE', 'GIRON')
-//(now(), 'AERIAL', 'PASSAGE', 'BOING 777')
-//(now(), 'MARITIME', 'BURDEN', 'QUEEN OF SEA')

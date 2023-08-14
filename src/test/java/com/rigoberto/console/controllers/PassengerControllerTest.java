@@ -66,15 +66,6 @@ public class PassengerControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[8].transportId").value(5));
     }
 
-//    ('Kuko', 1),
-//    ('Pedro', 2),
-//    ('Juan', 2),
-//    ('Pito', 3),
-//    ('Maria', 3),
-//    ('Sara', 4),
-//    ('Rita', 4),
-//    ('Felo', 5),
-//    ('Lurdes', 5)
 
     @Test
     @DisplayName("GET /api/passenger/page/{page} getAllByPage")
