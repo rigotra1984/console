@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SqlGroup({
-        @Sql(value = "classpath:db/reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
 public class PassengerControllerTest {
@@ -125,6 +125,12 @@ public class PassengerControllerTest {
         CreatePassengerDto model = new CreatePassengerDto();
         model.setName("Anita");
         model.setTransportId(2);
+
+        AddressDto addr = new AddressDto();
+        addr.setCity("Cienfuegos");
+        addr.setStreet("JuncoSur");
+
+        model.setAddress(addr);
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -138,7 +144,7 @@ public class PassengerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(10))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Anita"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.transport_id").value(2));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.transportId").value(2));
     }
 
     @Test

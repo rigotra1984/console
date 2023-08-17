@@ -53,7 +53,7 @@ public class TransportRepositoryTest {
         assertEquals(TypeVehicle.LAND, transports.get(1).getTypeVehicle(), "El trasporte elemento2 es Land(terrestre)");
 
         assertEquals(2, transports.get(2).getId(), "El id del elemento3 debe ser 2");
-        assertEquals("YUTONG", transports.get(2).getBrand(), "La marca del elemento3 debe ser: \"YUTONG\"");
+        assertEquals("GIRON", transports.get(2).getBrand(), "La marca del elemento3 debe ser: \"GIRON\"");
         assertEquals(Destination.PASSAGE, transports.get(2).getDestination(), "El Destino del elemento3 deber ser WALK(paseo)");
         assertEquals(TypeVehicle.LAND, transports.get(2).getTypeVehicle(), "El trasporte elemento3 es Land(terrestre)");
 

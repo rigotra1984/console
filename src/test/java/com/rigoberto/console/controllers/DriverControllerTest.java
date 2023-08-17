@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SqlGroup({
-        @Sql(value = "classpath:db/reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
 public class DriverControllerTest {
@@ -90,7 +90,7 @@ public class DriverControllerTest {
     }
 
     @Test
-    @DisplayName("POST /api/event create")
+    @DisplayName("POST /api/driver create")
     void create() throws Exception {
         CreateDriverDto model = new CreateDriverDto();
         model.setName("Anita");

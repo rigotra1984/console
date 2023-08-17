@@ -1,6 +1,7 @@
 package com.rigoberto.console.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rigoberto.console.dtos.CreateDriverDto;
 import com.rigoberto.console.dtos.CreateTransportDto;
 import com.rigoberto.console.entities.Destination;
 import com.rigoberto.console.entities.TypeVehicle;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @SqlGroup({
-        @Sql(value = "classpath:db/reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
+        @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
 public class TransportControllerTest {
@@ -138,6 +139,8 @@ public class TransportControllerTest {
         model.setBrand("MERCEDES_");
         model.setDrivers(new HashSet<>());
 
+        model.getDrivers().add(1);
+
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -149,7 +152,7 @@ public class TransportControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.destination").value(Destination.PASSAGE.toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("MERCEDES_"));
     }
