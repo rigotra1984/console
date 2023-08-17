@@ -52,7 +52,13 @@ public class TransportController {
     @Operation(summary = "Get a transports by its page")
     @GetMapping("/page/{page}")
     public PageDto<TransportDto> getAllByPage(@PathVariable Integer page) {
-        return mapper.convertToDto(service.findAll(page));
+        try {
+            return mapper.convertToDto(service.findAll(page));
+        } catch (Exception e) {
+            logger.error("Ocurrio un error al intentar obtener los trasnportes por paginas", e);
+            throw e;
+        }
+
     }
 
     @Operation(summary = "Get a transport by its id")
@@ -88,15 +94,22 @@ public class TransportController {
         if (entity.isEmpty()) {
             throw new NotFoundException("Element not found");
         }
+        Transport result;
+        try {
+            Collection<Driver> drivers = driverService.findAllByIdIn(dto.getDrivers());
 
-        Collection<Driver> drivers = driverService.findAllByIdIn(dto.getDrivers());
+            Transport transport = entity.get();
+            transport.setDestination(Destination.fromString(dto.getDestination()));
+            transport.setTypeVehicle(TypeVehicle.fromString(dto.getTypeVehicle()));
+            transport.setBrand(dto.getBrand());
+            transport.setDrivers(Set.copyOf(drivers));
+            result = service.save(transport);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Ocurrio un error al intentar actualizar un Transporte", e);
+            throw e;
+        }
 
-        Transport transport = entity.get();
-        transport.setDestination(Destination.fromString(dto.getDestination()));
-        transport.setTypeVehicle(TypeVehicle.fromString(dto.getTypeVehicle()));
-        transport.setBrand(dto.getBrand());
-        transport.setDrivers(Set.copyOf(drivers));
-        Transport result = service.save(transport);
 
         return mapper.convertToDto(result);
     }

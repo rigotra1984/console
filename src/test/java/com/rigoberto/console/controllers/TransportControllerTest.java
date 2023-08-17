@@ -1,8 +1,10 @@
 package com.rigoberto.console.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rigoberto.console.dtos.CreateEventDto;
-import com.rigoberto.console.entities.Priority;
+import com.rigoberto.console.dtos.CreateDriverDto;
+import com.rigoberto.console.dtos.CreateTransportDto;
+import com.rigoberto.console.entities.Destination;
+import com.rigoberto.console.entities.TypeVehicle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashSet;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -26,72 +30,80 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-public class EventControllerTest {
+public class TransportControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("GET /api/event getAll")
+    @DisplayName("GET /api/transport getAll")
     void getAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/event")
+                        .get("/api/transport")
                         //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].priority").value("MINIMUN"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].priority").value("MEDIUM"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].priority").value("MAXIMUN"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].typeVehicle").value("LAND"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].typeVehicle").value("LAND"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].typeVehicle").value("LAND"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[3].typeVehicle").value("AERIAL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[4].typeVehicle").value("MARITIME"));
     }
 
     @Test
-    @DisplayName("GET /api/event/page/{page} getAllByPage")
+    @DisplayName("GET /api/transport/page/{page} getAllByPage")
     void getAllByPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/event/page/{page}", 1)
+                        .get("/api/transport/page/{page}", 1)
                         //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items", hasSize(3)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items", hasSize(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(5))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.totalPages").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pageSize").value(20))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.page").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].priority").value("MAXIMUN"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[1].priority").value("MEDIUM"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[2].priority").value("MINIMUN"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].typeVehicle").value("MARITIME"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[1].typeVehicle").value("AERIAL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[2].typeVehicle").value("LAND"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[3].typeVehicle").value("LAND"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[4].typeVehicle").value("LAND"))
+        ;
     }
 
     @Test
-    @DisplayName("GET /api/event/{page} getById")
+    @DisplayName("GET /api/transport/{page} getById")
     void getById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/event/{eventId}", 1)
+                        .get("/api/transport/{transportId}", 5)
                         //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value("MINIMUN"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("descripcion de prueba1"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(5))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.typeVehicle").value("MARITIME"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("QUEEN OF SEA"));
     }
 
     @Test
-    @DisplayName("POST /api/event create")
+    @DisplayName("POST /api/transport create")
     void create() throws Exception {
-        CreateEventDto model = new CreateEventDto();
-        model.setPriority(Priority.MAXIMUN.toString());
-        model.setDescription("prueba4");
+        CreateTransportDto model = new CreateTransportDto();
+        model.setTypeVehicle(TypeVehicle.LAND.toString());
+        model.setDestination(Destination.WALK.toString());
+        model.setBrand("Hiunday");
+        model.setDrivers(new HashSet<>());
+
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/event")
+                        .post("/api/transport")
                         //.header("Authorization", getBearer("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -99,41 +111,50 @@ public class EventControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MAXIMUN.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("prueba4"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(6))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.typeVehicle").value(TypeVehicle.LAND.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.destination").value(Destination.WALK.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("Hiunday"));
+
     }
 
     @Test
-    @DisplayName("PUT /api/event/{1} update")
-    void update() throws Exception {
-        CreateEventDto model = new CreateEventDto();
-        model.setPriority(Priority.MINIMUN.toString());
-        model.setDescription("prueba1_");
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/event/{eventId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(model)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.priority").value(Priority.MINIMUN.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("prueba1_"));
-    }
-
-    @Test
-    @DisplayName("DELETE /api/event/{1} delete")
+    @DisplayName("DELETE /api/transport/{1} delete")
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/event/{eventId}", 1)
+                                .delete("/api/transport/{eventId}", 1)
                         //.header("Authorization", getBearer("rigo", "rigo"))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("PUT /api/transport/{1} update")
+    void update() throws Exception {
+        CreateTransportDto model = new CreateTransportDto();
+
+        model.setTypeVehicle(TypeVehicle.LAND.toString());
+        model.setDestination(Destination.PASSAGE.toString());
+        model.setBrand("MERCEDES_");
+        model.setDrivers(new HashSet<>());
+
+        model.getDrivers().add(1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/api/transport/{transportId}", 1)
+                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(model)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.destination").value(Destination.PASSAGE.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.brand").value("MERCEDES_"));
+    }
 }
+

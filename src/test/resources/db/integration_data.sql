@@ -20,26 +20,26 @@ VALUES (now(), 'LAND', 'WALK', 'MERCEDES'),
 -- -- Records of passenger
 -- -- ----------------------------
 INSERT INTO passenger(name, transport_id)
-VALUES ('Kuko', 0),
-       ('Pedro', 1),
-       ('Juan', 1),
-       ('Pito', 2),
-       ('Maria', 2),
-       ('Sara', 3),
-       ('Rita', 3),
-       ('Felo', 4),
-       ('Lurdes', 4);
+VALUES ('Kuko', 1),
+       ('Pedro', 2),
+       ('Juan', 2),
+       ('Pito', 3),
+       ('Maria', 3),
+       ('Sara', 4),
+       ('Rita', 4),
+       ('Felo', 5),
+       ('Lurdes', 5);
 
 insert into address(passenger_id, city, street)
-VALUES (0, 'Cienfuegos', 'Prado'),
-       (1, 'Cienfuegos', 'San Carlos'),
-       (2, 'Cienfuegos', 'Santa Cruz'),
-       (3, 'Cienfuegos', 'Prado'),
-       (4, 'Bayamo', 'Manuel de Socorro'),
-       (5, 'La Habana', 'Malecon'),
-       (6, 'Matanzas', 'Los Puentes'),
-       (7, 'Villa Clara', 'Vidal'),
-       (8, 'Matanzas', 'La Playa');
+VALUES (1, 'Cienfuegos', 'Prado'),
+       (2, 'Cienfuegos', 'San Carlos'),
+       (3, 'Cienfuegos', 'Santa Cruz'),
+       (4, 'Cienfuegos', 'Prado'),
+       (5, 'Bayamo', 'Manuel de Socorro'),
+       (6, 'La Habana', 'Malecon'),
+       (7, 'Matanzas', 'Los Puentes'),
+       (8, 'Villa Clara', 'Vidal'),
+       (9, 'Matanzas', 'La Playa');
 
 insert into driver(name, passport)
 VALUES ('Pepe', '84021014200'),
@@ -47,6 +47,6 @@ VALUES ('Pepe', '84021014200'),
        ('Siro', '65062215200');
 
 insert into transport_driver(transport_id, driver_id)
-VALUES (2,0),
-       (1,1),
-       (0,2);
+VALUES (3,1),
+       (2,2),
+       (1,3);

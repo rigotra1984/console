@@ -2,7 +2,6 @@ package com.rigoberto.console.repositories;
 
 import com.rigoberto.console.entities.Event;
 import com.rigoberto.console.entities.Priority;
-import com.rigoberto.console.repositories.EventRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ public class EventRepositoryTest {
     private EventRepository eventRepository;
 
     @Test
-    void injectedComponentsAreNotNull(){
+    void injectedComponentsAreNotNull() {
         Assertions.assertNotNull(eventRepository, "El repository no puede ser null");
     }
 
@@ -87,6 +86,23 @@ public class EventRepositoryTest {
         assertEquals(0, event.get().getId(), "El id del elemento1 debe ser 0");
         assertEquals("descripcion de prueba11", event.get().getDescription(), "La descripcion del elemento1 debe ser: \"descripcion de prueba11\"");
         assertEquals(Priority.MEDIUM, event.get().getPriority(), "La prioridad del elemento1 deber MEDIUM");
+    }
+
+    @Test
+    @DisplayName("Unit EventRepository deleteById")
+    void deleteById() {
+        eventRepository.deleteById(1);
+        Optional<Event> event = eventRepository.findById(1);
+        Assertions.assertTrue(event.isEmpty(), "El elemnto con Id 1 del repository fue eliminado");
+
+//        List<Event> events = eventRepository.findAll();
+//
+//        Assertions.assertNotNull(events, "El findAll del repository no puede ser null");
+//        assertEquals(2, events.size(), "El findAll del repository debe devolver 2 elementos");
+//
+//        assertEquals(2, events.get(1).getId(), "El id del elemento3 debe ser 2");
+//        assertEquals("descripcion de prueba3", events.get(1).getDescription(), "La descripcion del elemento3 debe ser: \"descripcion de prueba3\"");
+//        assertEquals(Priority.MAXIMUN, events.get(1).getPriority(), "La prioridad del elemento3 deber MAXIMUN");
     }
 
 }

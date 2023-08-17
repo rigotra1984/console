@@ -43,7 +43,8 @@ public class EventServiceTest {
         return List.of(
                 new Event(1, new Date(System.currentTimeMillis()), Priority.MINIMUN, "descripcion de prueba1"),
                 new Event(2, new Date(System.currentTimeMillis()), Priority.MEDIUM, "descripcion de prueba2"),
-                new Event(3, new Date(System.currentTimeMillis()), Priority.MAXIMUN, "descripcion de prueba3")
+                new Event(3, new Date(System.currentTimeMillis()), Priority.MAXIMUN, "descripcion de prueba3"),
+                new Event(4, new Date(System.currentTimeMillis()), Priority.MEDIUM, "descripcion de pruebas4" )
         );
     }
 
@@ -54,7 +55,7 @@ public class EventServiceTest {
 
         List<Event> result = Streams.streamOf(service.findAll()).toList();
 
-        assertEquals(3, result.size(), "El findAll del repository debe devolver 3 elementos");
+        assertEquals(4, result.size(), "El findAll del repository debe devolver 4 elementos");
     }
 
     @Test
