@@ -7,3 +7,15 @@ services:
       - 'POSTGRES_USER=postgres'
     ports:
       - '7654:5432'
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.3
+    container_name: console6p1-keycloak
+    ports:
+      - 8080:8080
+    volumes:
+      - "./keycloak/config:/opt/keycloak/data/import"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+    entrypoint: [ "/opt/keycloak/bin/kc.sh", "start-dev", "--import-realm" ]
