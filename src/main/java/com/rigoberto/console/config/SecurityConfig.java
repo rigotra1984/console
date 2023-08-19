@@ -45,6 +45,21 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/event/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/event/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.GET, "/api/event/**").hasAuthority("ROLE_user")
+
+                        .requestMatchers(HttpMethod.POST, "/api/transport/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/transport/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/transport/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.GET, "/api/transport/**").hasAuthority("ROLE_user")
+
+                        .requestMatchers(HttpMethod.POST, "/api/driver/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/driver/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/driver/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.GET, "/api/driver/**").hasAuthority("ROLE_user")
+
+                        .requestMatchers(HttpMethod.POST, "/api/passenger/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.PUT, "/api/passenger/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.DELETE, "/api/passenger/**").hasAuthority("ROLE_admin")
+                        .requestMatchers(HttpMethod.GET, "/api/passenger/**").hasAuthority("ROLE_user")
 //                        .requestMatchers("/api/locale/**").permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/api/locale/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
