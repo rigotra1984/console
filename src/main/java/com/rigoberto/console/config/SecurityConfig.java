@@ -38,14 +38,11 @@ public class SecurityConfig {
     }
 
     // https://docs.spring.io/spring-security/reference/reactive/oauth2/resource-server/jwt.html
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/event/**").hasAuthority("ROLE_admin")
-                        .requestMatchers(HttpMethod.PUT, "/api/event/**").hasAuthority("ROLE_admin")
-                        .requestMatchers(HttpMethod.DELETE, "/api/event/**").hasAuthority("ROLE_admin")
-                        .requestMatchers(HttpMethod.GET, "/api/event/**").hasAuthority("ROLE_user")
-
+                        // Elimina las líneas relacionadas con /api/event/**
                         .requestMatchers(HttpMethod.POST, "/api/transport/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.PUT, "/api/transport/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/transport/**").hasAuthority("ROLE_admin")
@@ -60,12 +57,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/passenger/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.DELETE, "/api/passenger/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.GET, "/api/passenger/**").hasAuthority("ROLE_user")
-//                        .requestMatchers("/api/locale/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/api/locale/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/event/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/event/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/event/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/event/**").permitAll()
+
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                        .anyRequest()
-                        .authenticated())
+
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter)))
                 .cors(Customizer.withDefaults())
                 .build();
