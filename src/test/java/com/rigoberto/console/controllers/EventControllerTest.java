@@ -35,7 +35,6 @@ public class EventControllerTest {
     void getAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/event")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -52,7 +51,6 @@ public class EventControllerTest {
     void getAllByPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/event/page/{page}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -72,7 +70,6 @@ public class EventControllerTest {
     void getById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/event/{eventId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -92,7 +89,6 @@ public class EventControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/event")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
@@ -114,7 +110,6 @@ public class EventControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/event/{eventId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
@@ -131,7 +126,6 @@ public class EventControllerTest {
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/event/{eventId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());

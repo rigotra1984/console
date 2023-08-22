@@ -1,5 +1,6 @@
 package com.rigoberto.console.controllers;
 
+import com.rigoberto.console.KeycloakTestContainer;
 import com.rigoberto.console.dtos.AddressDto;
 import com.rigoberto.console.dtos.CreateDriverDto;
 import com.rigoberto.console.dtos.CreatePassengerDto;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-public class PassengerControllerTest {
+public class PassengerControllerTest extends KeycloakTestContainer {
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,7 +40,7 @@ public class PassengerControllerTest {
     void getAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/passenger")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -72,7 +73,7 @@ public class PassengerControllerTest {
     void getAllByPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/passenger/page/{page}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -107,7 +108,7 @@ public class PassengerControllerTest {
     void getById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/passenger/{driverId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -135,7 +136,7 @@ public class PassengerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/passenger")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
@@ -164,7 +165,7 @@ public class PassengerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/passenger/{passengerId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
@@ -180,8 +181,8 @@ public class PassengerControllerTest {
     @DisplayName("DELETE /api/passenger/{1} delete")
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                                .delete("/api/passenger/{passengerId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .delete("/api/passenger/{passengerId}", 1)
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());

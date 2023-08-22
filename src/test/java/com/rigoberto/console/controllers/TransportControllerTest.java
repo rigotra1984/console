@@ -1,6 +1,7 @@
 package com.rigoberto.console.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rigoberto.console.KeycloakTestContainer;
 import com.rigoberto.console.dtos.CreateDriverDto;
 import com.rigoberto.console.dtos.CreateTransportDto;
 import com.rigoberto.console.entities.Destination;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Sql(value = "classpath:db/integration_reset.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "classpath:db/integration_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 })
-public class TransportControllerTest {
+public class TransportControllerTest extends KeycloakTestContainer {
     @Autowired
     private MockMvc mockMvc;
 
@@ -39,7 +40,7 @@ public class TransportControllerTest {
     void getAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/transport")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -58,7 +59,7 @@ public class TransportControllerTest {
     void getAllByPage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/transport/page/{page}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -81,7 +82,7 @@ public class TransportControllerTest {
     void getById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/transport/{transportId}", 5)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -104,7 +105,7 @@ public class TransportControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/transport")
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
@@ -122,8 +123,8 @@ public class TransportControllerTest {
     @DisplayName("DELETE /api/transport/{1} delete")
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                                .delete("/api/transport/{eventId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .delete("/api/transport/{eventId}", 1)
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -145,7 +146,7 @@ public class TransportControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/transport/{transportId}", 1)
-                        //.header("Authorization", getBearer("rigo", "rigo"))
+                        .header("Authorization", getBearerToken("rigo", "rigo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(model)))
