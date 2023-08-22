@@ -58,10 +58,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/passenger/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.GET, "/api/passenger/**").hasAuthority("ROLE_user")
 
-                        .requestMatchers(HttpMethod.POST, "/api/event/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/event/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/event/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/event/**").permitAll()
+                        .requestMatchers("/api/event/**").permitAll()
 
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
