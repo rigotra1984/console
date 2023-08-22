@@ -44,7 +44,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
                         // Elimina las líneas relacionadas con /api/event/**
                         .requestMatchers(HttpMethod.POST, "/api/transport/**").hasAuthority("ROLE_admin")
                         .requestMatchers(HttpMethod.PUT, "/api/transport/**").hasAuthority("ROLE_admin")
