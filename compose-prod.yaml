@@ -15,14 +15,24 @@ services:
       timeout: 5s
       retries: 10
     restart: always
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.3
+    container_name: console6p1-keycloak
+    ports:
+      - 8085:8080
+    volumes:
+      - "./keycloak/config:/opt/keycloak/data/import"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+    entrypoint: [ "/opt/keycloak/bin/kc.sh", "start-dev", "--import-realm" ]
   console:
     build: ./
     container_name: console
     image: rigoberto/console
     ports:
       - "50070:8090"
-#    volumes:
-#      - ./m2:/var/maven/.m2
     depends_on:
       postgres:
         condition: service_healthy

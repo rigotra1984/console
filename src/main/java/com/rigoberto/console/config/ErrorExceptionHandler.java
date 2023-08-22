@@ -9,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -59,19 +61,19 @@ public class ErrorExceptionHandler extends ResponseEntityExceptionHandler {
     // 401 Unauthorized
     // ---------------
 
-//    @ExceptionHandler(AuthenticationException.class)
-//    public ResponseEntity<Object> handleAuthenticationException(Exception ex, WebRequest request) {
-//        return handleExceptionInternal(ex, UNAUTHORIZED, request);
-//    }
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleAuthenticationException(Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, UNAUTHORIZED, request);
+    }
 
     // ---------------
     // 403 Access Denied
     // ---------------
 
-//    @ExceptionHandler({AccessDeniedException.class})
-//    public ResponseEntity<Object> handleAccessDeniedException(Exception ex, WebRequest request) {
-//        return handleExceptionInternal(ex, FORBIDDEN, request);
-//    }
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Object> handleAccessDeniedException(Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, FORBIDDEN, request);
+    }
 
     // ---------------
     // 404 Bad Request
